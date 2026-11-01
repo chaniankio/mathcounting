@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>數學『有』捷徑 - 高中數學工具箱</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0284c7',
+                            darkblue: '#0369a1',
+                            orange: '#f97316',
+                            lightbg: '#f8fafc',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .tab-btn.active {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col selection:bg-orange-100 selection:text-orange-600">
+
+    <!-- 頂部導覽列 -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div onclick="switchTab('home')" class="flex items-center gap-3 cursor-pointer group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-200 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-compass text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-blue-700 via-sky-600 to-orange-500 bg-clip-text text-transparent">
+                        數學「有」捷徑
+                    </span>
+                    <span class="block text-[10px] text-slate-400 font-medium -mt-1 tracking-wider">
+                        HIGH SCHOOL MATH TOOLKIT
+                    </span>
+                </div>
+            </div>
+
+            <!-- 導覽按鈕 -->
+            <nav class="flex items-center gap-1 sm:gap-2">
+                <button id="nav-home" onclick="switchTab('home')" class="tab-btn active flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="hidden sm:inline">首頁</span>
+                </button>
+                <button id="nav-trig" onclick="switchTab('trig')" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">
+                    <i class="fa-solid fa-compass"></i>
+                    <span class="hidden sm:inline">三角函數</span>
+                </button>
+                <button id="nav-slope" onclick="switchTab('slope')" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span class="hidden sm:inline">直線斜率</span>
+                </button>
+                <button id="nav-quad" onclick="switchTab('quad')" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors">
+                    <i class="fa-solid fa-calculator"></i>
+                    <span class="hidden sm:inline">一元二次方程</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主要內容區塊 -->
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 md:p-8">
+        
+        <!-- 1. 首頁區塊 -->
+        <section id="view-home" class="space-y-8 py-4">
+            <div class="text-center space-y-4 max-w-2xl mx-auto">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-700 text-xs font-semibold tracking-wide shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                    專為高中生打造的輔助教學軟體
+                </div>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                    數學<span class="text-orange-500">「有」</span>捷徑
+                </h1>
+                <p class="text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
+                    精準解算公式，動態幾何圖形視覺化，無廣告雜訊，幫助快速釐清解題思路。
+                </p>
+            </div>
+
+            <!-- 三大工具選擇 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+                <!-- 工具 1 -->
+                <div onclick="switchTab('trig')" class="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-sky-300 transition-all cursor-pointer flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-sky-50 rounded-bl-full -z-0 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10 space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-sky-500 text-white flex items-center justify-center shadow-md shadow-sky-200 group-hover:bg-sky-600 transition-colors">
+                            <i class="fa-solid fa-compass text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-bold text-slate-800 group-hover:text-sky-600 transition-colors">三角函數計算器</h3>
+                            <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                                求出 sin, cos, tan, cot, sec, csc，支援弧度角度切換，附動態 SVG 單位圓與特殊角對照表。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative z-10 pt-6 flex items-center text-sm font-semibold text-sky-600 group-hover:translate-x-1 transition-transform">
+                        開始計算 <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- 工具 2 -->
+                <div onclick="switchTab('slope')" class="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-sky-300 transition-all cursor-pointer flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-0 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10 space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-200 group-hover:bg-blue-700 transition-colors">
+                            <i class="fa-solid fa-chart-line text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors">直線斜率計算器</h3>
+                            <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                                輸入兩點座標，自動求出斜率 $m$、斜截式 $y=mx+k$、一般式 $Ax+By+C=0$ 及直角座標幾何圖。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative z-10 pt-6 flex items-center text-sm font-semibold text-blue-600 group-hover:translate-x-1 transition-transform">
+                        開始計算 <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- 工具 3 -->
+                <div onclick="switchTab('quad')" class="group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-orange-300 transition-all cursor-pointer flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-bl-full -z-0 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10 space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-orange-500 text-white flex items-center justify-center shadow-md shadow-orange-200 group-hover:bg-orange-600 transition-colors">
+                            <i class="fa-solid fa-calculator text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 group-hover:text-orange-600 transition-colors">一元二次方程解算器</h3>
+                            <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                                輸入 $a, b, c$，計算判別式 $\Delta$，支援實數根與共軛複數根推導，附拋物線頂點繪圖。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative z-10 pt-6 flex items-center text-sm font-semibold text-orange-600 group-hover:translate-x-1 transition-transform">
+                        開始計算 <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 三角函數頁面 -->
+        <section id="view-trig" class="hidden space-y-6">
+            <div class="flex items-center gap-4 border-b border-slate-200 pb-4">
+                <button onclick="switchTab('home')" class="p-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-compass text-sky-500"></i>
+                        三角函數計算器
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">即時求值、SVG 單位圓動態幾何及特殊角數值表</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- 左側控制區 -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <label class="block text-sm font-bold text-slate-700">輸入角度或弧度數值</label>
+                        <div class="flex gap-3">
+                            <input type="number" step="any" id="trig-input" value="45" oninput="calcTrig()" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 font-mono text-lg">
+                            <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200">
+                                <button id="unit-deg" onclick="setTrigUnit('deg')" class="px-3 py-1.5 rounded-lg text-sm font-semibold bg-white text-sky-600 shadow-sm">角度 (°)</button>
+                                <button id="unit-rad" onclick="setTrigUnit('rad')" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-500 hover:text-slate-800">弧度 (rad)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 結果欄位 -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-800 border-b border-slate-100 pb-3">六大三角函數計算結果</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <div class="p-3.5 rounded-xl bg-sky-50/60 border border-sky-100">
+                                <span class="text-xs font-bold text-sky-700 block">sin (正弦)</span>
+                                <span id="res-sin" class="text-lg font-mono font-bold text-slate-800 mt-1 block">0</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-sky-50/60 border border-sky-100">
+                                <span class="text-xs font-bold text-sky-700 block">cos (餘弦)</span>
+                                <span id="res-cos" class="text-lg font-mono font-bold text-slate-800 mt-1 block">0</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-sky-50/60 border border-sky-100">
+                                <span class="text-xs font-bold text-sky-700 block">tan (正切)</span>
+                                <span id="res-tan" class="text-lg font-mono font-bold text-slate-800 mt-1 block">0</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-orange-50/60 border border-orange-100">
+                                <span class="text-xs font-bold text-orange-700 block">cot (餘切)</span>
+                                <span id="res-cot" class="text-lg font-mono font-bold text-slate-800 mt-1 block">0</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-orange-50/60 border border-orange-100">
+                                <span class="text-xs font-bold text-orange-700 block">sec (正割)</span>
+                                <span id="res-sec" class="text-lg font-mono font-bold text-slate-800 mt-1 block">0</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-orange-50/60 border border-orange-100">
+                                <span class="text-xs font-bold text-orange-700 block">csc (餘割)</span>
+                                <span id="res-csc" class="text-lg font-mono font-bold text-slate-800 mt-1 block">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側 SVG 單位圓 -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center">
+                    <h3 class="text-base font-bold text-slate-800 mb-2 w-full text-left">動態 SVG 單位圓</h3>
+                    <div class="relative w-64 h-64 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-center p-2">
+                        <svg viewBox="0 0 260 260" class="w-full h-full">
+                            <line x1="10" y1="130" x2="250" y2="130" stroke="#cbd5e1" stroke-width="1.5" />
+                            <line x1="130" y1="10" x2="130" y2="250" stroke="#cbd5e1" stroke-width="1.5" />
+                            <circle cx="130" cy="130" r="90" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4" />
+                            <line id="svg-hyp" x1="130" y1="130" x2="193" y2="67" stroke="#3b82f6" stroke-width="2.5" />
+                            <line id="svg-cos" x1="130" y1="130" x2="193" y2="130" stroke="#10b981" stroke-width="3" />
+                            <line id="svg-sin" x1="193" y1="130" x2="193" y2="67" stroke="#ef4444" stroke-width="3" />
+                            <circle id="svg-point" cx="193" cy="67" r="5" fill="#f97316" />
+                        </svg>
+                    </div>
+                    <div class="mt-4 flex gap-4 text-xs font-semibold">
+                        <span class="text-emerald-600"><span class="inline-block w-3 h-1 bg-emerald-500 rounded mr-1"></span> cos θ</span>
+                        <span class="text-red-500"><span class="inline-block w-3 h-1 bg-red-500 rounded mr-1"></span> sin θ</span>
+                        <span class="text-blue-600"><span class="inline-block w-3 h-1 bg-blue-500 rounded mr-1"></span> 斜邊 (r=1)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 特殊角對照表 -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <h3 class="text-base font-bold text-slate-800">高中必背特殊角對照表</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-center border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-600 border-b border-slate-200">
+                                <th class="py-2 px-3">角度 / 函數</th>
+                                <th class="py-2 px-3">0° (0)</th>
+                                <th class="py-2 px-3">30° (π/6)</th>
+                                <th class="py-2 px-3">45° (π/4)</th>
+                                <th class="py-2 px-3">60° (π/3)</th>
+                                <th class="py-2 px-3">90° (π/2)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 font-mono">
+                            <tr><td class="font-bold text-sky-700 bg-slate-50">sin</td><td>0</td><td>1/2</td><td>√2/2</td><td>√3/2</td><td>1</td></tr>
+                            <tr><td class="font-bold text-sky-700 bg-slate-50">cos</td><td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td></tr>
+                            <tr><td class="font-bold text-sky-700 bg-slate-50">tan</td><td>0</td><td>√3/3</td><td>1</td><td>√3</td><td class="text-red-500">未定義</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 直線斜率頁面 -->
+        <section id="view-slope" class="hidden space-y-6">
+            <div class="flex items-center gap-4 border-b border-slate-200 pb-4">
+                <button onclick="switchTab('home')" class="p-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-blue-600"></i>
+                        直線斜率與方程式計算器
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">求兩點斜率 m、直線方程式、中點與線段距離</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- 左側輸入 -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-sm font-bold text-slate-700">輸入平面上兩點座標</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 block mb-2">點 1 (P₁)</span>
+                                <div class="flex items-center gap-2 font-mono">
+                                    <span>(</span>
+                                    <input type="number" id="slope-x1" value="1" oninput="calcSlope()" class="w-full px-2 py-1.5 rounded-lg border text-center">
+                                    <span>,</span>
+                                    <input type="number" id="slope-y1" value="2" oninput="calcSlope()" class="w-full px-2 py-1.5 rounded-lg border text-center">
+                                    <span>)</span>
+                                </div>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 block mb-2">點 2 (P₂)</span>
+                                <div class="flex items-center gap-2 font-mono">
+                                    <span>(</span>
+                                    <input type="number" id="slope-x2" value="4" oninput="calcSlope()" class="w-full px-2 py-1.5 rounded-lg border text-center">
+                                    <span>,</span>
+                                    <input type="number" id="slope-y2" value="8" oninput="calcSlope()" class="w-full px-2 py-1.5 rounded-lg border text-center">
+                                    <span>)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 結果列 -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-800 border-b border-slate-100 pb-3">計算結果</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-100">
+                                <span class="text-xs font-bold text-blue-700 block">斜率 (m)</span>
+                                <span id="res-m" class="text-xl font-mono font-bold text-slate-800 mt-1 block">2.0000</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-100">
+                                <span class="text-xs font-bold text-blue-700 block">兩點距離 (d)</span>
+                                <span id="res-dist" class="text-xl font-mono font-bold text-slate-800 mt-1 block">6.7082</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                                <span class="text-xs font-bold text-slate-600 block">斜截式 (y = mx + k)</span>
+                                <span id="res-intercept-form" class="text-base font-mono font-bold text-slate-800 mt-1 block">y = 2x + 0</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                                <span class="text-xs font-bold text-slate-600 block">一般式 (Ax + By + C = 0)</span>
+                                <span id="res-standard-form" class="text-base font-mono font-bold text-slate-800 mt-1 block">2x - y = 0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側坐標繪圖 -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center">
+                    <h3 class="text-base font-bold text-slate-800 mb-2 w-full text-left">直角座標系視覺化</h3>
+                    <div class="relative w-64 h-64 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-center p-2">
+                        <svg id="slope-svg" viewBox="0 0 260 260" class="w-full h-full">
+                            <line x1="10" y1="130" x2="250" y2="130" stroke="#cbd5e1" stroke-width="1.5" />
+                            <line x1="130" y1="10" x2="130" y2="250" stroke="#cbd5e1" stroke-width="1.5" />
+                            <line id="slope-line" x1="50" y1="210" x2="210" y2="50" stroke="#2563eb" stroke-width="2.5" />
+                            <circle id="slope-p1" cx="140" cy="110" r="5" fill="#2563eb" />
+                            <circle id="slope-p2" cx="170" cy="50" r="5" fill="#f97316" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 一元二次方程頁面 -->
+        <section id="view-quad" class="hidden space-y-6">
+            <div class="flex items-center gap-4 border-b border-slate-200 pb-4">
+                <button onclick="switchTab('home')" class="p-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-orange-500"></i>
+                        一元二次方程解算器
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">求解 ax² + bx + c = 0，支援判別式與共軛複數根推導</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- 左側輸入 -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-sm font-bold text-slate-700">輸入方程式係數 (ax² + bx + c = 0)</h3>
+                        <div class="grid grid-cols-3 gap-3 font-mono">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-500 block mb-1">係數 a</label>
+                                <input type="number" id="quad-a" value="1" oninput="calcQuad()" class="w-full px-3 py-2 rounded-xl border text-center font-bold">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-500 block mb-1">係數 b</label>
+                                <input type="number" id="quad-b" value="-5" oninput="calcQuad()" class="w-full px-3 py-2 rounded-xl border text-center font-bold">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-500 block mb-1">係數 c</label>
+                                <input type="number" id="quad-c" value="6" oninput="calcQuad()" class="w-full px-3 py-2 rounded-xl border text-center font-bold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 計算結果步驟 -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-800 border-b border-slate-100 pb-3">解題推導步驟</h3>
+                        
+                        <div class="p-4 rounded-xl bg-orange-50/70 border border-orange-100 space-y-1">
+                            <span class="text-xs font-bold text-orange-700 block">1. 判別式 D = b² - 4ac</span>
+                            <p id="quad-disc" class="text-lg font-mono font-bold text-slate-800">D = 1</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                            <span class="text-xs font-bold text-slate-600 block">2. 二次公式解根數值</span>
+                            <div id="quad-roots" class="font-mono text-sm space-y-1 font-bold">
+                                <div>x₁ = 3.0000</div>
+                                <div>x₂ = 2.0000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側拋物線 Preview -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center">
+                    <h3 class="text-base font-bold text-slate-800 mb-2 w-full text-left">拋物線走勢示意圖</h3>
+                    <div class="relative w-64 h-64 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-center p-2">
+                        <svg viewBox="0 0 260 260" class="w-full h-full">
+                            <line x1="10" y1="130" x2="250" y2="130" stroke="#cbd5e1" stroke-width="1.5" />
+                            <line x1="130" y1="10" x2="130" y2="250" stroke="#cbd5e1" stroke-width="1.5" />
+                            <polyline id="quad-polyline" fill="none" stroke="#f97316" stroke-width="2.5" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>© 數學「有」捷徑 - 專為高中生打造的簡潔數學小工具箱</p>
+    </footer>
+
+    <!-- JavaScript 邏輯程式碼 -->
+    <script>
+        let trigUnit = 'deg';
+
+        function switchTab(tab) {
+            document.querySelectorAll('section[id^="view-"]').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            const navBtn = document.getElementById(`nav-${tab}`);
+            if (navBtn) navBtn.classList.add('active');
+        }
+
+        // --- 1. 三角函數計算邏輯 ---
+        function setTrigUnit(unit) {
+            trigUnit = unit;
+            document.getElementById('unit-deg').className = unit === 'deg' ? 'px-3 py-1.5 rounded-lg text-sm font-semibold bg-white text-sky-600 shadow-sm' : 'px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-500';
+            document.getElementById('unit-rad').className = unit === 'rad' ? 'px-3 py-1.5 rounded-lg text-sm font-semibold bg-white text-sky-600 shadow-sm' : 'px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-500';
+            calcTrig();
+        }
+
+        function calcTrig() {
+            const val = parseFloat(document.getElementById('trig-input').value) || 0;
+            const rad = trigUnit === 'deg' ? (val * Math.PI) / 180 : val;
+
+            const sin = Math.sin(rad);
+            const cos = Math.cos(rad);
+
+            const fmt = v => Math.abs(v) < 1e-12 ? 0 : Number(v.toFixed(4));
+            const fmtRecip = v => Math.abs(v) < 1e-12 ? '<span class="text-red-500">未定義</span>' : Number((1/v).toFixed(4));
+
+            document.getElementById('res-sin').innerHTML = fmt(sin);
+            document.getElementById('res-cos').innerHTML = fmt(cos);
+            document.getElementById('res-tan').innerHTML = Math.abs(cos) < 1e-12 ? '<span class="text-red-500">未定義</span>' : fmt(sin/cos);
+            document.getElementById('res-cot').innerHTML = Math.abs(sin) < 1e-12 ? '<span class="text-red-500">未定義</span>' : fmt(cos/sin);
+            document.getElementById('res-sec').innerHTML = fmtRecip(cos);
+            document.getElementById('res-csc').innerHTML = fmtRecip(sin);
+
+            // 更新 SVG
+            const cx = 130, cy = 130, r = 90;
+            const tx = cx + r * Math.cos(rad);
+            const ty = cy - r * Math.sin(rad);
+
+            document.getElementById('svg-hyp').setAttribute('x2', tx);
+            document.getElementById('svg-hyp').setAttribute('y2', ty);
+            document.getElementById('svg-cos').setAttribute('x2', tx);
+            document.getElementById('svg-sin').setAttribute('x1', tx);
+            document.getElementById('svg-sin').setAttribute('x2', tx);
+            document.getElementById('svg-sin').setAttribute('y2', ty);
+            document.getElementById('svg-point').setAttribute('cx', tx);
+            document.getElementById('svg-point').setAttribute('cy', ty);
+        }
+
+        // --- 2. 直線斜率計算邏輯 ---
+        function calcSlope() {
+            const x1 = parseFloat(document.getElementById('slope-x1').value) || 0;
+            const y1 = parseFloat(document.getElementById('slope-y1').value) || 0;
+            const x2 = parseFloat(document.getElementById('slope-x2').value) || 0;
+            const y2 = parseFloat(document.getElementById('slope-y2').value) || 0;
+
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+
+            document.getElementById('res-dist').innerText = dist.toFixed(4);
+
+            if (dx === 0) {
+                document.getElementById('res-m').innerText = '不存在 (垂直線)';
+                document.getElementById('res-intercept-form').innerText = `x = ${x1}`;
+                document.getElementById('res-standard-form').innerText = `x - ${x1} = 0`;
+            } else {
+                const m = dy / dx;
+                const k = y1 - m * x1;
+                document.getElementById('res-m').innerText = m.toFixed(4);
+                document.getElementById('res-intercept-form').innerText = `y = ${m.toFixed(2)}x ${k >= 0 ? '+ ' + k.toFixed(2) : '- ' + Math.abs(k).toFixed(2)}`;
+                document.getElementById('res-standard-form').innerText = `${dy.toFixed(1)}x - ${dx.toFixed(1)}y + ${(dx*y1 - dy*x1).toFixed(1)} = 0`;
+            }
+        }
+
+        // --- 3. 一元二次方程計算邏輯 ---
+        function calcQuad() {
+            const a = parseFloat(document.getElementById('quad-a').value) || 1;
+            const b = parseFloat(document.getElementById('quad-b').value) || 0;
+            const c = parseFloat(document.getElementById('quad-c').value) || 0;
+
+            const disc = b*b - 4*a*c;
+            document.getElementById('quad-disc').innerText = `D = (${b})² - 4(${a})(${c}) = ${disc}`;
+
+            const rootsEl = document.getElementById('quad-roots');
+            if (disc > 0) {
+                const r1 = (-b + Math.sqrt(disc)) / (2*a);
+                const r2 = (-b - Math.sqrt(disc)) / (2*a);
+                rootsEl.innerHTML = `<div>x₁ = ${r1.toFixed(4)}</div><div>x₂ = ${r2.toFixed(4)}</div>`;
+            } else if (disc === 0) {
+                const r = -b / (2*a);
+                rootsEl.innerHTML = `<div>x₁ = x₂ = ${r.toFixed(4)} (重根)</div>`;
+            } else {
+                const real = (-b / (2*a)).toFixed(4);
+                const imag = (Math.sqrt(-disc) / (2*Math.abs(a))).toFixed(4);
+                rootsEl.innerHTML = `<div class="text-orange-600">x₁ = ${real} + ${imag}i</div><div class="text-orange-600">x₂ = ${real} - ${imag}i</div>`;
+            }
+
+            // 繪製二次曲線
+            const points = [];
+            for (let x = -6; x <= 6; x += 0.4) {
+                const y = a*x*x + b*x + c;
+                const sx = 130 + x * 15;
+                const sy = 130 - y * 10;
+                points.push(`${sx},${sy}`);
+            }
+            document.getElementById('quad-polyline').setAttribute('points', points.join(' '));
+        }
+
+        // 初始化計算
+        calcTrig();
+        calcSlope();
+        calcQuad();
+    </script>
+</body>
+</html>
